@@ -1,0 +1,42 @@
+.header {
+    .content {
+        display: flex;
+        justify-content: space-between;
+        background: var(--c1);
+        overflow: hidden;
+        box-shadow: 5px 0 20px 1px rgba(0, 0, 0, 0.2);
+
+        a {
+            text-decoration: none;
+            margin: 0;
+            padding: 0;
+        }
+        .navItem {
+            padding: 0.5em;
+            text-transform: uppercase;
+            color: white;
+        }
+        .main {
+            display: flex;
+            align-items: center;
+
+            .logo {
+                img {
+                    width: 70px;
+                    height: 70px;
+                }
+            }
+        }
+        .extra {
+            display: flex;
+            align-items: center;
+            .themeBtn {
+                padding: 0.5em 1em;
+                .icon {
+                    font-size: 1.5em;
+                    padding-top: 0.2em;
+                }
+            }
+        }
+    }
+}

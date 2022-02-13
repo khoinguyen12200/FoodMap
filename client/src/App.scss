@@ -1,0 +1,81 @@
+@import "~antd/dist/antd.css";
+:root {
+    .theme_light {
+        --c1: #056fc7;
+        --c2: #892CDC;
+        --c3: #ff6661;
+        --c4: #91c483;
+
+        --t: #000;
+        --b: #e3fbff;
+    }
+
+    .theme_dark {
+        --c1: #72147e;
+        --c2: #f21170;
+        --c3: #fa9905;
+        --c4: #ff5200;
+
+        --t: #fff;
+        --b: #2a0944;
+    }
+}
+
+.App {
+    text-align: center;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+
+    background: var(--b);
+    color: var(--t);
+    font-family: "BeVietNam";
+    .AppBody {
+        flex: 1;
+    }
+}
+
+.App-logo {
+    height: 40vmin;
+    pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .App-logo {
+        animation: App-logo-spin infinite 20s linear;
+    }
+}
+
+.App-header {
+    background-color: #282c34;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: white;
+}
+
+.App-link {
+    color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@font-face {
+    font-family: Raleway;
+    src: url(./assets/fonts/Raleway-Regular.ttf);
+}
+
+@font-face {
+    font-family: BeVietNam;
+    src: url(./assets/fonts/BeVietnamPro-Regular.ttf);
+}
