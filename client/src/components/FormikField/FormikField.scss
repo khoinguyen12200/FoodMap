@@ -1,0 +1,20 @@
+.formikField {
+    margin:0.5em;
+    text-align: left;
+    position: relative;
+
+    .fieldInput {
+        width: 100%;
+        input {
+            color: black;
+        }
+    }
+    .err {
+        margin-top: 0.5em;
+        color: rgba(255, 0, 0, 1);
+        font-weight: bold;
+        background: rgba(255, 255, 255, 0.486);
+        border-radius: 0.2em;
+        padding: 0.2em;
+    }
+}

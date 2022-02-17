@@ -12,16 +12,20 @@ import {
     Field,
     ObjectType,
 } from "type-graphql";
+import { FileUpload, GraphQLUpload } from "graphql-upload";
 import { InjectRepository } from "typeorm-typedi-extensions";
 import { getCustomRepository } from "typeorm";
+import { createWriteStream } from "fs";
 
 import User from "../models/User";
 import { sign } from "../functions/jsonwebtoken";
 import requireLogin from "../functions/requireLogin";
 
+const USER_AVATAR_PATH = "./static_folder/users/avatars/";
+
 // Mutation Login
 @InputType()
-class RegisterInput implements Partial<User> {
+class RegisterInput {
     @Field()
     public account!: string;
 
@@ -31,9 +35,8 @@ class RegisterInput implements Partial<User> {
     @Field()
     public name!: string;
 
-    @Field({nullable:true})
-    public avatar?: string;
-
+    @Field(() => GraphQLUpload)
+    public file!: FileUpload;
 }
 
 @InputType()
@@ -42,18 +45,14 @@ class UpdateUserInfoInput implements Partial<User> {
     public name!: string;
 }
 
-
 @InputType()
-class UpdatePassword{
+class UpdatePassword {
     @Field()
     public old!: string;
 
     @Field()
     public new!: string;
-
 }
-
-
 
 @InputType()
 class LoginInput implements Partial<User> {
@@ -72,11 +71,10 @@ class ReturnLoginValue {
     public user!: User;
 }
 
-@Resolver(of=>User)
-export default class UserResolver implements ResolverInterface<User>  {
-    
+@Resolver((of) => User)
+export default class UserResolver implements ResolverInterface<User> {
     @FieldResolver()
-    public password(){
+    public password() {
         return "";
     }
 
@@ -92,8 +90,8 @@ export default class UserResolver implements ResolverInterface<User>  {
             throw new Error("Thông tin không chính xác");
         }
 
-        const token = sign(user.id+"");
-        const result = {token,user}
+        const token = sign(user.id + "");
+        const result = { token, user };
         return result;
     }
 
@@ -101,7 +99,22 @@ export default class UserResolver implements ResolverInterface<User>  {
     public async register(
         @Arg("data") inputData: RegisterInput
     ): Promise<User> {
-        const user = await User.create(inputData).save();
+        const { file, ...userProps } = inputData;
+
+        const user = await User.create({ ...userProps }).save();
+
+        const fileData = await file;
+        const fileType = fileData.filename.split(".")[1];
+        const userAvatarPath = `${USER_AVATAR_PATH}${user.id}.${fileType}`;
+
+        await new Promise<void>((resolve, reject) => {
+            fileData
+                .createReadStream()
+                .pipe(createWriteStream(userAvatarPath))
+                .on("finish", () => resolve())
+                .on("error", () => reject());
+        });
+
 
         await user.save();
 
@@ -136,7 +149,7 @@ export default class UserResolver implements ResolverInterface<User>  {
             throw new Error("Bạn chưa đăng nhập");
         }
 
-        if(inputData.old !== user.password){
+        if (inputData.old !== user.password) {
             throw new Error("Mật khẩu cũ không chính xác");
         }
 
@@ -145,5 +158,4 @@ export default class UserResolver implements ResolverInterface<User>  {
 
         return user;
     }
-
 }

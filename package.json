@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "fullinstall":"cd client && yarn add && cd ../server && yarn add",
+    "fullinstall":"cd client && yarn && cd ../server && yarn",
     "server":"cd server && yarn start"
   },
   "author": "Nguyễn Gia Khôi (khoinguyen12200)",

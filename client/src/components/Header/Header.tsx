@@ -10,6 +10,7 @@ import "./Header.scss";
 import { actions, useAppDispatch, useAppSelector } from "../../redux";
 import UnderLine from "../Underline";
 import { motion } from "framer-motion";
+// import {motion} from 'framer-motion/dist/es/index'
 
 type Props = {};
 

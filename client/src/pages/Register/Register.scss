@@ -1,4 +1,4 @@
-.Login {
+.Register {
     min-height: 100vh;
     display: flex;
     align-items: center;
@@ -6,12 +6,13 @@
     padding: 1rem;
     color: white;
     .bg {
-        position: absolute;
+        position: fixed;
         min-width: 100vw;
         min-height: 100vh;
         z-index: 1;
     }
     .form {
+        min-width: 50vw;
         z-index: 2;
         padding: 1rem;
         border-radius: 0.3rem;
@@ -19,9 +20,9 @@
         background: rgb(48, 199, 255);
         background: linear-gradient(
             90deg,
-            rgba(48, 199, 255, 0.7) 0%,
-            rgba(124, 124, 255, 0.7) 52%,
-            rgba(205, 0, 255, 0.7) 100%
+            rgba(48, 199, 255, 0.8) 0%,
+            rgba(124, 124, 255, 0.8) 52%,
+            rgba(205, 0, 255, 0.8) 100%
         );
         .title {
             color: white;
@@ -31,8 +32,16 @@
             > * {
                 margin-top: 1rem;
             }
+            .submitBtn {
+                min-width: 300px;
+                margin-top: 2em;
+            }
+            .imgInput{
+                margin-top: 1rem;
+            }
         }
     }
+
     .btnSpace {
         display: flex;
         justify-content: center;

@@ -2,6 +2,11 @@ import "reflect-metadata";
 import { Container } from 'typeorm-typedi-extensions';
 import * as TypeORM from "typeorm";
 import { ApolloServer } from "apollo-server-express";
+const {
+    GraphQLUpload,
+    graphqlUploadExpress, // A Koa implementation is also exported.
+  } = require('graphql-upload');
+
 import express, { Request, Response } from "express";
 import cors from "cors";
 import CookieParser from "cookie-parser";
@@ -41,6 +46,7 @@ async function appRun() {
 
         app.use(cors(corsConfig));
         app.use(CookieParser());
+        app.use(graphqlUploadExpress());
 
         function contextMiddleware({
             req,
