@@ -12,25 +12,65 @@ import { Link, useNavigate } from "react-router-dom";
 
 import "./Login.scss";
 import { useLazyQuery } from "@apollo/client";
-import * as GSchema from './schema'
+import * as GSchema from "./schema";
+
+import FormikField from "../../components/FormikField";
+import { Form, Formik, FormikHelpers } from "formik";
+import * as Yup from "yup";
+import * as Validation from "../../constant/Validation";
+import hashPassword from "../../constant/hashPassword";
+import { toast } from "react-toastify";
+import {useAppDispatch,actions} from '../../redux'
 
 type Props = {};
 
 function Login({}: Props) {
-    const [login, { loading, error, data }] = useLazyQuery(GSchema.Login);
+    const [callLogin, { loading, error, data }] = useLazyQuery(GSchema.Login);
     const navigate = useNavigate();
+    const dispatch = useAppDispatch();
 
     React.useEffect(() => {
-        login({
-            variables: {
-                data:{
-                    account: "admin",
-                    password: "admin",
-                }
-            }
-        })
-    },[])
-    console.log("test login",data,loading,error)
+        if(data && data.login){
+            const account = data.login as MyAccount;
+            dispatch(actions.myAccount.setMyAccount(account))
+            navigate("/account")
+        }
+    }, [data]);
+
+
+    const initialValues = {
+        account: "",
+        password: "",
+    };
+    const validationSchema = Yup.object().shape({
+        account: Validation.account,
+        password: Validation.password,
+    });
+
+    async function onSubmit(values: typeof initialValues) {
+        await toast.promise(handleLogin(values), {
+            pending: "Đang tải",
+            error: {
+                render: (res: any) => res?.data?.message,
+            },
+            success: "Đăng nhập thành công",
+        });
+    }
+
+    async function handleLogin(values: typeof initialValues) {
+        const { account, password } = values;
+        const hashedPassword = hashPassword(password);
+
+        const variables = {
+            data: {
+                account,
+                password: hashedPassword,
+            },
+        }
+        await callLogin({
+            variables
+        });
+    }
 
     return (
         <div className="Login">
@@ -38,19 +78,33 @@ function Login({}: Props) {
             <div className="form">
                 <h1 className="title">Đăng nhập</h1>
                 <div className="content">
-                    <Input
-                        size="large"
-                        placeholder="Account"
-                        prefix={<UserOutlined />}
-                    />
-                    <Input.Password
-                        size="large"
-                        placeholder="Password"
-                        prefix={<LockOutlined />}
-                    />
-                    <Button shape="round" size="large">
-                        Xác nhận
-                    </Button>
+                    <Formik
+                        initialValues={initialValues}
+                        validationSchema={validationSchema}
+                        onSubmit={onSubmit}
+                    >
+                        <Form className="formContent">
+                            <FormikField
+                                name="account"
+                                label="Tài khoản"
+                                icon={<UserOutlined />}
+                            />
+                            <FormikField
+                                name="password"
+                                type="password"
+                                label="Mật khẩu"
+                                icon={<LockOutlined />}
+                            />
+                            <Button
+                                htmlType="submit"
+                                disabled={loading}
+                                shape="round"
+                                size="large"
+                            >
+                                Xác nhận
+                            </Button>
+                        </Form>
+                    </Formik>
                 </div>
                 <Divider />
                 <div className="btnSpace">

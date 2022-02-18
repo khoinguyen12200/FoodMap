@@ -48,4 +48,17 @@ export default class User extends BaseEntity {
     @Field((_type) =>[Restaurant])
     @OneToMany(()=>Restaurant,(restaurant:Restaurant)=> restaurant.owner)
     public restaurants?:Restaurant[];
+
+    @Field({nullable:true})
+    @Column({ type: "varchar",nullable:true })
+    public email?:string;
+
+    @Field({nullable:true})
+    @Column({ type: "varchar",nullable:true })
+    public address?:string;
+
+    @Field({nullable:true})
+    @Column({ type: "varchar",nullable:true })
+    public phone?:string;
+
 }

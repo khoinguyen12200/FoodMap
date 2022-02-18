@@ -23,6 +23,12 @@
             rgba(124, 124, 255, 0.7) 52%,
             rgba(205, 0, 255, 0.7) 100%
         );
+        .formContent{
+            margin-bottom: 1rem;
+            >*{
+                margin-top: 1rem;
+            }
+        }
         .title {
             color: white;
         }

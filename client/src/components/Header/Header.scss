@@ -34,9 +34,28 @@
                 padding: 0.5em 1em;
                 .icon {
                     font-size: 1.5em;
-                    padding-top: 0.2em;
+                    width: 100%;
                 }
             }
+        }
+    }
+
+    .userSpace {
+        display: flex;
+        align-items: center;
+
+        .avatarContainer {
+            .avatar {
+                width: 30px;
+                height: 30px;
+                border-radius: 50%;
+                border: 3px solid white;
+                background-color:white;
+            }
+        }
+        .userName {
+            margin: 0 0.5em;
+            color: white;
         }
     }
 }

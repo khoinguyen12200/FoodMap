@@ -26,11 +26,12 @@ function UnderLine({ listenClassName }: Props) {
 
     function checkLocation(){
         const { pathname } = location;
+
         const listA = document.getElementsByClassName(listenClassName);
         let found = false;
         for (let i = 0; i < listA.length; i++) {
             const a = listA[i] as HTMLAnchorElement;
-            if (a.pathname === pathname) {
+            if (getFirstPath(a.pathname) === getFirstPath(pathname)) {
                 const { offsetWidth, offsetHeight, offsetLeft, offsetTop } = a;
                 setPosition({
                     width: offsetWidth,
@@ -49,6 +50,10 @@ function UnderLine({ listenClassName }: Props) {
                 top: 0,
             });
         }
+    }
+
+    function getFirstPath(path:string){
+        return path.split("/")[0]
     }
 
     return <motion.div 

@@ -1,11 +1,18 @@
 import React from "react";
-import { Provider } from "react-redux";
+import { Provider as ReduxProvider } from "react-redux";
 import store, { useAppSelector } from "./redux";
 
 import logo from "./logo.svg";
 import "./App.scss";
 
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import {
+    BrowserRouter as Router,
+    Routes,
+    Route,
+    Link,
+    Outlet,
+    Navigate,
+} from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 import { ToastContainer, toast } from "react-toastify";
@@ -27,16 +34,18 @@ import Home from "./pages/Home";
 import PageWrapper from "./PageWrapper";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import MyApolloProvider from "./Apollo";
+import Account from "./pages/Account";
 
 function WrapperApp() {
     return (
         <Router>
-            <ApolloProvider client={apolloClient}>
-                <Provider store={store}>
+            <ReduxProvider store={store}>
+                <MyApolloProvider>
                     <ToastContainer />
                     <App />
-                </Provider>
-            </ApolloProvider>
+                </MyApolloProvider>
+            </ReduxProvider>
         </Router>
     );
 }
@@ -72,11 +81,26 @@ function App() {
                             </PageWrapper>
                         }
                     />
+                    <Route path="/" element={<PrivateRoutes />}>
+                        <Route
+                            path="account"
+                            element={
+                                <PageWrapper>
+                                    <Account />
+                                </PageWrapper>
+                            }
+                        />
+                    </Route>
                 </Routes>
             </div>
             <Footer />
         </div>
     );
+}
+
+function PrivateRoutes() {
+    const user = useAppSelector((state) => state.myAccount.user);
+    return user ? <Outlet /> : <Navigate to="/login" />;
 }
 
 export default WrapperApp;

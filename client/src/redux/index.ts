@@ -1,5 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
+import MyAccountSlice from "./MyAccount";
 import PageSettingSlice from "./PageSettingSlice";
 import ThemeSlice from "./ThemeSlice";
 
@@ -28,6 +29,7 @@ export const store = configureStore({
     reducer: {
         theme: ThemeSlice.reducer,
         pageSetting: PageSettingSlice.reducer,
+        myAccount:MyAccountSlice.reducer,
     },
     preloadedState: loadState(),
     devTools: true,
@@ -39,6 +41,7 @@ store.subscribe(() => {
 export const actions = {
     theme: ThemeSlice.actions,
     pageSetting: PageSettingSlice.actions,
+    myAccount: MyAccountSlice.actions,
 }
 
 

@@ -10,6 +10,7 @@ import "./Header.scss";
 import { actions, useAppDispatch, useAppSelector } from "../../redux";
 import UnderLine from "../Underline";
 import { motion } from "framer-motion";
+import UserSpace from "./UserSpace";
 // import {motion} from 'framer-motion/dist/es/index'
 
 type Props = {};
@@ -17,6 +18,7 @@ type Props = {};
 const Header = (props: Props) => {
     const theme = useAppSelector((state) => state.theme);
     const isEmpty = useAppSelector((state) => state.pageSetting.isEmpty);
+    const user = useAppSelector((state) => state.myAccount.user);
     const dispatch = useAppDispatch();
     function toggleTheme() {
         dispatch(actions.theme.toggleTheme());
@@ -24,20 +26,15 @@ const Header = (props: Props) => {
     return (
         <div className="header">
             <motion.div
-                animate={{height:isEmpty ? 0 : "auto"}}
-                transition={{duration:0.3}}
+                animate={{ height: isEmpty ? 0 : "auto" }}
+                transition={{ duration: 0.3 }}
                 className="content"
             >
                 {!isEmpty && <UnderLine listenClassName="navItem" />}
 
                 <div className="main">
                     <div className="logo">
-                        <img
-                            src={
-                                LogoWhite
-                            }
-                            alt="logo"
-                        />
+                        <img src={LogoWhite} alt="logo" />
                     </div>
                     <Link className="navItem" to="/">
                         Trang chủ
@@ -50,9 +47,14 @@ const Header = (props: Props) => {
                     </Link>
                 </div>
                 <div className="extra">
-                    <Link className="navItem" to="/login">
-                        Đăng nhập
-                    </Link>
+                    {user ? (
+                        <UserSpace user={user} />
+                    ) : (
+                        <Link className="navItem" to="/login">
+                            Đăng nhập
+                        </Link>
+                    )}
+
                     <div className="themeBtn">
                         <Switch
                             checkedChildren={<BsFillSunFill className="icon" />}

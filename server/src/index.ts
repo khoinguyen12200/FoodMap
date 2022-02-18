@@ -14,6 +14,7 @@ import { verify } from "./functions/jsonwebtoken";
 import { buildSchema } from "type-graphql";
 import resolvers from './resolvers'
 import User from "./models/User";
+import path from 'path'
 
 require('dotenv').config()
 const port = process.env.PORT || 4000;
@@ -47,6 +48,15 @@ async function appRun() {
         app.use(cors(corsConfig));
         app.use(CookieParser());
         app.use(graphqlUploadExpress());
+
+        app.get('/static_folder/*', (req, res) => {
+            console.log("req.path",req.path)
+
+            const filePath = __dirname+"/../"+req.path;
+          
+            console.log("filePath",  path.resolve(filePath))
+            res.sendFile(  path.resolve(filePath))
+        });
 
         function contextMiddleware({
             req,

@@ -21,7 +21,8 @@ import User from "../models/User";
 import { sign } from "../functions/jsonwebtoken";
 import requireLogin from "../functions/requireLogin";
 
-const USER_AVATAR_PATH = "./static_folder/users/avatars/";
+const USER_AVATAR_PATH = "static_folder/users/avatars/";
+const RELATIVE_AVATAR_PATH = "./"+USER_AVATAR_PATH;
 
 // Mutation Login
 @InputType()
@@ -105,16 +106,20 @@ export default class UserResolver implements ResolverInterface<User> {
 
         const fileData = await file;
         const fileType = fileData.filename.split(".")[1];
-        const userAvatarPath = `${USER_AVATAR_PATH}${user.id}.${fileType}`;
+        const fileName = user.id + "." + fileType;
+
+        const userAvatarPath = `${USER_AVATAR_PATH}${fileName}`;
+        const relativeAvatarPath = `${RELATIVE_AVATAR_PATH}${fileName}`;
 
         await new Promise<void>((resolve, reject) => {
             fileData
                 .createReadStream()
-                .pipe(createWriteStream(userAvatarPath))
+                .pipe(createWriteStream(relativeAvatarPath))
                 .on("finish", () => resolve())
                 .on("error", () => reject());
         });
 
+        user.avatar = userAvatarPath;
 
         await user.save();
 
