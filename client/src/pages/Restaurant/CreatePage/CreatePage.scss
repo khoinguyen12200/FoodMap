@@ -1,0 +1,43 @@
+.CreateRestaurant{
+    .FormCreateRestaurant{
+        margin:2rem;
+
+        .imgInput{
+            margin-top:2em;
+        }
+        .submitBtn{
+            margin-top: 2rem;
+            min-width: 200px;
+        }
+    }
+}
+
+.LocationPicker{
+    display:flex;
+    align-items:center;
+    background-color:var(--c1);
+    border-radius: 0.5em;
+    
+    margin:0.5em;
+    margin-top: 2rem;
+    cursor: pointer;
+    color:white;
+    .label{
+        padding:1em;
+        margin-right:0.5em;
+        border-right: 2px solid white;
+        font-weight: bold;
+        display:flex;
+        align-items:center;
+        .action{
+            line-height: 0;
+            font-size: 1.5em;
+            margin-left: 0.5em;
+        }
+    }
+    .value{
+        text-align: left;
+        padding:1em;
+        flex:1;
+    }
+}

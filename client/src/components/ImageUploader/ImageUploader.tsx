@@ -48,7 +48,7 @@ interface Props {
     onSubmit: (blob: File) => void;
 }
 
-function ImageUploader({
+export function ImageUploader({
     aspect,
     isShow,
     onClose,
@@ -139,13 +139,14 @@ function ImageUploader({
 
     return (
         <motion.div
+            initial={{ opacity: 0 }}
             animate={isShow ? { opacity: 1 } : { opacity: 0 }}
             style={{ pointerEvents: isShow ? "all" : "none" }}
             className="image-uploader-wrapper"
         >
             <div className="image-uploader">
                 <div className="header">
-                    <p className="title">{title}</p>
+                    <h3 className="title">{title}</h3>
                     <div>
                         <button
                             type="button"

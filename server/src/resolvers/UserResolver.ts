@@ -20,9 +20,10 @@ import { createWriteStream } from "fs";
 import User from "../models/User";
 import { sign } from "../functions/jsonwebtoken";
 import requireLogin from "../functions/requireLogin";
+import fs from 'fs'
 
 const USER_AVATAR_PATH = "static_folder/users/avatars/";
-const RELATIVE_AVATAR_PATH = "./"+USER_AVATAR_PATH;
+const RELATIVE_AVATAR_PATH = "./" + USER_AVATAR_PATH;
 
 // Mutation Login
 @InputType()
@@ -41,9 +42,24 @@ class RegisterInput {
 }
 
 @InputType()
+class UpdateUserAvatar{
+    @Field(() => GraphQLUpload)
+    public file!: FileUpload;
+}
+
+@InputType()
 class UpdateUserInfoInput implements Partial<User> {
     @Field()
     public name!: string;
+
+    @Field({ nullable: true })
+    public email?: string;
+
+    @Field({ nullable: true })
+    public address?: string;
+
+    @Field({ nullable: true })
+    public phone?: string;
 }
 
 @InputType()
@@ -96,6 +112,19 @@ export default class UserResolver implements ResolverInterface<User> {
         return result;
     }
 
+    @Query(() => User)
+    public async reloadUser( @Ctx() context: ContextProps): Promise<User> {
+
+        const user = await requireLogin(context);
+        
+        if (!user) {
+            throw new Error("Thông tin không chính xác");
+        }
+
+        return user;
+    }
+
+
     @Mutation(() => User)
     public async register(
         @Arg("data") inputData: RegisterInput
@@ -104,26 +133,38 @@ export default class UserResolver implements ResolverInterface<User> {
 
         const user = await User.create({ ...userProps }).save();
 
-        const fileData = await file;
-        const fileType = fileData.filename.split(".")[1];
-        const fileName = user.id + "." + fileType;
-
-        const userAvatarPath = `${USER_AVATAR_PATH}${fileName}`;
-        const relativeAvatarPath = `${RELATIVE_AVATAR_PATH}${fileName}`;
-
-        await new Promise<void>((resolve, reject) => {
-            fileData
-                .createReadStream()
-                .pipe(createWriteStream(relativeAvatarPath))
-                .on("finish", () => resolve())
-                .on("error", () => reject());
-        });
+        const userAvatarPath = await uploadAvatarUser(user.id,file);
 
         user.avatar = userAvatarPath;
 
         await user.save();
 
         return user;
+    }
+
+    @Mutation(() => User)
+    public async updateUserAvatar(
+        @Arg("data") inputData: UpdateUserAvatar,
+        @Ctx() context: ContextProps
+    ): Promise<User> {
+        const user = await requireLogin(context);
+        const {file} = inputData;
+
+        if (!user) {
+            throw new Error("Bạn chưa đăng nhập");
+        }
+
+        if(user.avatar){
+            await unlinkAvatar(user.avatar);
+        }
+        
+        const newAvatarPath = await uploadAvatarUser(user.id,file);
+
+        user.avatar = newAvatarPath;
+        await user.save();
+
+        return user;
+
     }
 
     @Mutation(() => User)
@@ -137,8 +178,8 @@ export default class UserResolver implements ResolverInterface<User> {
             throw new Error("Bạn chưa đăng nhập");
         }
 
-        user.name = inputData.name;
-        await user.save();
+        const res = await User.update(user.id, { ...inputData });
+        await user.reload();
 
         return user;
     }
@@ -163,4 +204,34 @@ export default class UserResolver implements ResolverInterface<User> {
 
         return user;
     }
+}
+
+
+async function uploadAvatarUser(id:number,file:FileUpload){
+    const fileData = await file;
+    const fileType = fileData.filename.split(".")[1];
+    const fileName = id + "." + fileType;
+
+    const userAvatarPath = `${USER_AVATAR_PATH}${fileName}`;
+    const relativeAvatarPath = `${RELATIVE_AVATAR_PATH}${fileName}`;
+
+    await new Promise<void>((resolve, reject) => {
+        fileData
+            .createReadStream()
+            .pipe(createWriteStream(relativeAvatarPath))
+            .on("finish", () => resolve())
+            .on("error", () => reject());
+    });
+
+    return userAvatarPath;
+}
+
+async function unlinkAvatar(userAvatarPath: string){
+    const relativeAvatarPath = userAvatarPath.replace(USER_AVATAR_PATH,RELATIVE_AVATAR_PATH);
+    await new Promise((resolve, reject) =>{
+        fs.unlink(relativeAvatarPath,(err)=>{
+            if(err) reject(err);
+            resolve(true);
+        });
+    })
 }

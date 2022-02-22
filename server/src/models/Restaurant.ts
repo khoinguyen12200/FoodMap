@@ -53,22 +53,6 @@ export default class Restaurant extends BaseEntity {
     @Column({ type: "varchar",nullable:true })
     public email?: string;
 
-    @Field({nullable: true})
-    @Column({ type: "timestamp",nullable:true  })
-    public openTime?: Date;
-
-    @Field({nullable: true})
-    @Column({ type: "timestamp",nullable:true  })
-    public closeTime?: Date;
-
-    @Field()
-    @Column({ type: "varchar",default:"1111111" })
-    public openDays!:string;
-
-    @Field()
-    @Column({ type: "boolean",default:true })
-    public isOpen!: boolean;
-
     @Field({})
     @Column({ type: "float" })
     public longitude?: number;

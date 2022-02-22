@@ -20,17 +20,54 @@ import { sign } from "../functions/jsonwebtoken";
 import Restaurant from "../models/Restaurant";
 
 import requireLogin from "../functions/requireLogin";
+import { FileUpload, GraphQLUpload } from "graphql-upload";
+import fs from 'fs'
+import { createWriteStream } from "fs";
+import Victual from "../models/Victual";
+
+const RESTAURANT_PATH = "static_folder/restaurants/avatars/";
+const RELATIVE_RESTAURANT_PATH = "./" + RESTAURANT_PATH;
+
+async function uploadAvatarRestaurant(id:number,file:FileUpload){
+    const fileData = await file;
+    const fileType = fileData.filename.split(".")[1];
+    const fileName = id + "." + fileType;
+
+    const userAvatarPath = `${RESTAURANT_PATH}${fileName}`;
+    const relativeAvatarPath = `${RELATIVE_RESTAURANT_PATH}${fileName}`;
+
+    await new Promise<void>((resolve, reject) => {
+        fileData
+            .createReadStream()
+            .pipe(createWriteStream(relativeAvatarPath))
+            .on("finish", () => resolve())
+            .on("error", () => reject());
+    });
+
+    return userAvatarPath;
+}
+
+async function unlinkRestaurantAvatar(userAvatarPath: string){
+    const relativeAvatarPath = userAvatarPath.replace(RESTAURANT_PATH,RELATIVE_RESTAURANT_PATH);
+    await new Promise((resolve, reject) =>{
+        fs.unlink(relativeAvatarPath,(err)=>{
+            if(err) reject(err);
+            resolve(true);
+        });
+    })
+}
+
 
 @InputType()
-class CreateRestaurantInput implements Partial<Restaurant> {
+class CreateRestaurantInput{
     @Field()
     public name!: string;
 
     @Field()
     public describe!: string;
 
-    @Field({ nullable: true })
-    public avatar?: string;
+    @Field(() => GraphQLUpload)
+    public avatar!: FileUpload;
 
     @Field()
     public address!: string;
@@ -40,18 +77,6 @@ class CreateRestaurantInput implements Partial<Restaurant> {
 
     @Field({ nullable: true })
     public email?: string;
-
-    @Field({ nullable: true })
-    public openTime?: Date;
-
-    @Field({ nullable: true })
-    public closeTime?: Date;
-
-    @Field({ nullable: true })
-    public openDays!: string;
-
-    @Field({ nullable: true })
-    public isOpen!: boolean;
 
     @Field()
     public longitude?: number;
@@ -61,47 +86,50 @@ class CreateRestaurantInput implements Partial<Restaurant> {
 }
 
 @InputType()
-class UpdateInfoInput implements Partial<Restaurant> {
+class UpdateInfoInput {
     @Field()
     public id!: number;
 
-    @Field()
-    public name!: string;
+    @Field({ nullable: true })
+    public name?: string;
 
-    @Field()
-    public describe!: string;
+    @Field({ nullable: true })
+    public describe?: string;
 
-    @Field()
-    public address!: string;
+    @Field(() => GraphQLUpload,{nullable: true})
+    public avatar?: FileUpload;
 
-    @Field()
-    public phone!: string;
+    @Field({ nullable: true })
+    public address?: string;
+
+    @Field({ nullable: true })
+    public phone?: string;
 
     @Field({ nullable: true })
     public email?: string;
 
     @Field({ nullable: true })
-    public openTime?: Date;
-
-    @Field({ nullable: true })
-    public closeTime?: Date;
-
-    @Field({ nullable: true })
-    public openDays!: string;
-
-    @Field({ nullable: true })
-    public isOpen!: boolean;
-
-    @Field()
     public longitude?: number;
 
-    @Field()
+    @Field({ nullable: true })
     public latitude?: number;
 }
 
 @InputType()
 class UpdateAvatarRestaurantInput implements Partial<Restaurant> {
 
+}
+
+@InputType()
+class FindRestaurantsInput implements Partial<Restaurant>{
+    @Field({ nullable: true})
+    public id?:number;
+
+    @Field({ nullable: true})
+    public name?:string;
+
+    @Field({ nullable: true})
+    public ownerId?:number;
 }
 
 @Resolver((of) => Restaurant)
@@ -113,9 +141,18 @@ export default class RestaurantResolver
         return await User.findOneOrFail({ id: restaurant.ownerId });
     }
 
+    @FieldResolver(() => User)
+    public async victuals(@Root() restaurant: Restaurant): Promise<Victual[]> {
+        return await Victual.find({ restaurantId: restaurant.id });
+    }
+
     @Query(() => [Restaurant])
-    public async find(): Promise<Restaurant[]> {
-        return await Restaurant.find();
+    public async findRestaurants(
+        @Arg("data") inputData: FindRestaurantsInput,
+    ): Promise<Restaurant[]> {
+        const res = await Restaurant.find({...inputData})
+        console.log("res",res)
+        return res;
     }
 
     @Mutation(() => Restaurant)
@@ -124,10 +161,18 @@ export default class RestaurantResolver
         @Ctx() context: ContextProps
     ): Promise<Restaurant> {
         const user = await requireLogin(context);
+
+        const {avatar,...infoData} = inputData;
+
+   
         const newRestaurant = await Restaurant.create({
-            ...inputData,
+            ...infoData,
             owner: user,
         }).save();
+
+        const path = await uploadAvatarRestaurant(newRestaurant.id,avatar);
+        newRestaurant.avatar = path;
+        await newRestaurant.save();
 
         return newRestaurant;
     }
@@ -138,26 +183,36 @@ export default class RestaurantResolver
         @Ctx() context: ContextProps
     ): Promise<Restaurant> {
         const user = await requireLogin(context);
+        const {avatar,id,...textInput} = inputData;
         const restaurant = await Restaurant.findOneOrFail({
-            id: inputData.id,
+            id: id,
             ownerId: user.id,
         });
 
-        await Restaurant.update(inputData.id,{ ...inputData })
+        if(avatar && restaurant.avatar){
+            await unlinkRestaurantAvatar(restaurant.avatar);
+            const path = await uploadAvatarRestaurant(restaurant.id,avatar);
+            restaurant.avatar = path;
+            restaurant.save();
+        }
+
+        await Restaurant.update({id:id,ownerId:user.id},{ ...textInput })
         await restaurant.reload();
+
         return restaurant;
     }
 
-    @Mutation(() => Restaurant)
+    @Mutation(() => Boolean )
     public async deleteRestaurant(
         @Arg("id") id: number,
         @Ctx() context: ContextProps
-    ): Promise<void>{
+    ): Promise<Boolean>{
         const user = await requireLogin(context);
         const restaurant = await Restaurant.findOneOrFail({
             id,
             ownerId: user.id,
         });
         await restaurant.remove();
+        return true;
     }
 }

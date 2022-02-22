@@ -33,6 +33,16 @@
     font-family: "BeVietNam";
     .AppBody {
         flex: 1;
+        min-height: 90vh;
+    }
+    .PageTitle{
+        color:var(--t);
+        font-size:2rem;
+        padding:0.5em;
+        margin:0.5em;
+        border-bottom: 2px solid var(--t);
+        font-weight: bold;
+        text-transform: uppercase;
     }
 }
 

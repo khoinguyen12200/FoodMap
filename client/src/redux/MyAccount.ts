@@ -34,6 +34,9 @@ const MyAccountSlice = createSlice({
         },
         logout:()=>{
             return {...initialState};
+        },
+        setUserInfo:(state,action:PayloadAction<User>)=>{
+            return {...state,user:action.payload}
         }
     },
 });

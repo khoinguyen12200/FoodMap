@@ -19,6 +19,7 @@
     "dotenv": "10.0.0",
     "formik": "^2.2.9",
     "framer-motion": "^4.1.17",
+    "google-map-react": "^2.1.10",
     "graphql": "^16.3.0",
     "js-sha512": "^0.8.0",
     "react": "^17.0.2",
@@ -37,7 +38,7 @@
     "yup": "^0.32.11"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "dev": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -62,6 +63,7 @@
   },
   "devDependencies": {
     "@types/apollo-upload-client": "^17.0.0",
+    "@types/google-map-react": "^2.1.5",
     "@types/resolve-path": "^1.4.0",
     "sass": "^1.49.7"
   }

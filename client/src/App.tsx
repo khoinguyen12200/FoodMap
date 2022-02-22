@@ -12,6 +12,7 @@ import {
     Link,
     Outlet,
     Navigate,
+    useLocation,
 } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -27,7 +28,6 @@ import {
 } from "@apollo/client";
 import apolloClient from "./Apollo";
 
-import MyMapComponent from "./components/Map";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Home from "./pages/Home";
@@ -36,6 +36,14 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import MyApolloProvider from "./Apollo";
 import Account from "./pages/Account";
+
+import { AnimatePresence, motion } from "framer-motion";
+import Map from "./pages/Map";
+import Restaurant from "./pages/Restaurant";
+import RestaurantCreatePage from "./pages/Restaurant/CreatePage";
+import ManageRestaurantPage from "./pages/Restaurant/Manage";
+import EditRestaurantPage from './pages/Restaurant/EditPage';
+
 
 function WrapperApp() {
     return (
@@ -51,47 +59,92 @@ function WrapperApp() {
 }
 
 function App() {
+    const location = useLocation();
     const theme = useAppSelector((state) => state.theme);
     return (
         <div className={`App theme_${theme.color}`}>
             <Header />
             <div className="AppBody">
-                <Routes>
-                    <Route
-                        path="/"
-                        element={
-                            <PageWrapper>
-                                <Home />
-                            </PageWrapper>
-                        }
-                    />
-                    <Route
-                        path="/login"
-                        element={
-                            <PageWrapper isEmpty={true}>
-                                <Login />
-                            </PageWrapper>
-                        }
-                    />
-                    <Route
-                        path="/register"
-                        element={
-                            <PageWrapper isEmpty={true}>
-                                <Register />
-                            </PageWrapper>
-                        }
-                    />
-                    <Route path="/" element={<PrivateRoutes />}>
+                <AnimatePresence exitBeforeEnter>
+                    <Routes>
                         <Route
-                            path="account"
+                            path="/"
                             element={
                                 <PageWrapper>
-                                    <Account />
+                                    <Home />
                                 </PageWrapper>
                             }
                         />
-                    </Route>
-                </Routes>
+                        <Route
+                            path="/login"
+                            element={
+                                <PageWrapper isEmpty={true}>
+                                    <Login />
+                                </PageWrapper>
+                            }
+                        />
+                        <Route
+                            path="/register"
+                            element={
+                                <PageWrapper isEmpty={true}>
+                                    <Register />
+                                </PageWrapper>
+                            }
+                        />
+
+                        <Route
+                            path="/map"
+                            element={
+                                <PageWrapper isEmpty={false}>
+                                    <Map />
+                                </PageWrapper>
+                            }
+                        />
+                        <Route path="/" element={<PrivateRoutes />}>
+                            <Route
+                                path="account"
+                                element={
+                                    <PageWrapper>
+                                        <Account />
+                                    </PageWrapper>
+                                }
+                            />
+                            <Route
+                                path="my-restaurant"
+                                element={
+                                    <PageWrapper>
+                                        <Restaurant />
+                                    </PageWrapper>
+                                }
+                            />
+                            <Route
+                                path="my-restaurant/create"
+                                element={
+                                    <PageWrapper>
+                                        <RestaurantCreatePage />
+                                    </PageWrapper>
+                                }
+                            />
+
+                            <Route
+                                path="my-restaurant/manage/:id"
+                                element={
+                                    <PageWrapper>
+                                        <ManageRestaurantPage />
+                                    </PageWrapper>
+                                }
+                            />
+                              <Route
+                                path="my-restaurant/edit/:id"
+                                element={
+                                    <PageWrapper>
+                                        <EditRestaurantPage />
+                                    </PageWrapper>
+                                }
+                            />
+                        </Route>
+                    </Routes>
+                </AnimatePresence>
             </div>
             <Footer />
         </div>
@@ -100,7 +153,7 @@ function App() {
 
 function PrivateRoutes() {
     const user = useAppSelector((state) => state.myAccount.user);
-    return user ? <Outlet /> : <Navigate to="/login" />;
+    return user ? <Outlet /> : <Navigate to="/" />;
 }
 
 export default WrapperApp;

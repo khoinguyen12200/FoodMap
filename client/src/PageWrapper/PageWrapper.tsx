@@ -16,7 +16,15 @@ function PageWrapper({ children, isEmpty }: Props): React.ReactElement {
             dispatch(actions.pageSetting.setEmpty(false));
         }
     }, [isEmpty]);
-    return <>{children}</>;
+    return (
+        <motion.div
+            initial={{ y:-50 }}
+            animate={{ y:0 }}
+            exit={{y:50 }}
+        >
+            {children}
+        </motion.div>
+    );
 }
 
 export default PageWrapper;

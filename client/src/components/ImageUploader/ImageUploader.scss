@@ -8,6 +8,7 @@
     padding: 5em 1em;
     background-color: rgba(0, 0, 0, 0.363);
     overflow: hidden;
+
     .image-uploader {
         position: absolute;
         top: 50%;
@@ -29,14 +30,17 @@
         display: flex;
         justify-content: space-between;
         padding: 5px;
+        background:mediumaquamarine;
         border-bottom: 1px solid #ccc;
         .title {
             padding: 5px;
+            margin:0;
+            color: white ;
         }
         .close-button {
             border-radius: 3px;
             padding: 5px 10px;
-            color: red;
+            color: white;
             background-color: transparent;
             border: none;
             outline: none;
@@ -119,41 +123,40 @@
 }
 
 .ImagePicker {
-    display:flex;
+    display: flex;
     flex-direction: column;
     align-items: center;
     .imgBtn {
-        border:none;
-        outline:none;
-        background-color:white;
-        border-radius:5px;
-        padding:0;
+        border: none;
+        outline: none;
+        background-color: white;
+        border-radius: 5px;
+        padding: 0;
         overflow: hidden;
-        color:black;
+        color: black;
         position: relative;
-        
+
         & > * {
             width: 100%;
             height: 100%;
         }
-        .editBtn{
-            line-height:0;
-            position:absolute;
-            bottom:5px;
-            right:5px;
-            width:30px;
-            height:30px;
-            background-color:gray;
-            color:white;
-            border-radius:50%;
-            box-shadow: 0 0 10px 1px rgba(0,0,0,0.3);
-            border:none;
-            outline:none;
+        .editBtn {
+            line-height: 0;
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
+            width: 30px;
+            height: 30px;
+            background-color: gray;
+            color: white;
+            border-radius: 50%;
+            box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.3);
+            border: none;
+            outline: none;
         }
     }
-    .imgLabel{
+    .imgLabel {
         margin-top: 0.5em;
         text-align: center;
-
     }
 }

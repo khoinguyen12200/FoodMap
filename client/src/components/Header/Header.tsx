@@ -12,10 +12,13 @@ import UnderLine from "../Underline";
 import { motion } from "framer-motion";
 import UserSpace from "./UserSpace";
 // import {motion} from 'framer-motion/dist/es/index'
+import * as schema from "./schema";
+import { useLazyQuery } from "@apollo/client";
 
 type Props = {};
 
 const Header = (props: Props) => {
+    const [callReloadUser, { data }] = useLazyQuery(schema.reloadUser);
     const theme = useAppSelector((state) => state.theme);
     const isEmpty = useAppSelector((state) => state.pageSetting.isEmpty);
     const user = useAppSelector((state) => state.myAccount.user);
@@ -23,10 +26,23 @@ const Header = (props: Props) => {
     function toggleTheme() {
         dispatch(actions.theme.toggleTheme());
     }
+
+    React.useEffect(() => {
+        if (user) {
+            callReloadUser();
+        }
+    }, [user]);
+    React.useEffect(() => {
+        if (data) {
+            dispatch(actions.myAccount.setUserInfo(data.reloadUser));
+        }
+    }, [data]);
+
     return (
         <div className="header">
             <motion.div
-                animate={{ height: isEmpty ? 0 : "auto" }}
+                animate={{ opacity: isEmpty ? 0 : 1 }}
+                // animate={{ height: isEmpty ? 0 : "auto" }}
                 transition={{ duration: 0.3 }}
                 className="content"
             >
@@ -45,6 +61,13 @@ const Header = (props: Props) => {
                     <Link className="navItem" to="/information">
                         Thông tin
                     </Link>
+                    {user && (
+                        <>
+                            <Link className="navItem" to="/my-restaurant">
+                                Doanh nghiệp
+                            </Link>
+                        </>
+                    )}
                 </div>
                 <div className="extra">
                     {user ? (

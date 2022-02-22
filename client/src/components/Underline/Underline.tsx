@@ -53,7 +53,8 @@ function UnderLine({ listenClassName }: Props) {
     }
 
     function getFirstPath(path:string){
-        return path.split("/")[0]
+        
+        return path.split("/")[1]
     }
 
     return <motion.div 
