@@ -1,10 +1,14 @@
 import React from 'react'
-
+import './Home.scss'
+import ListRestaurant from './ListRestaurant'
 type Props = {}
 
 function Home({}: Props) {
   return (
-    <div>Home</div>
+    <div className="Home">
+      <ListRestaurant/>
+      <hr />
+    </div>
   )
 }
 

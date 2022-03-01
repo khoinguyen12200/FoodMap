@@ -11,7 +11,7 @@ type Props = {};
 
 declare global {
     interface Restaurant {
-        id: string;
+        id: number;
         name: string;
         address: string;
         phone: string;
@@ -20,8 +20,32 @@ declare global {
         email: string;
         longitude: number;
         latitude: number;
+        victuals: Victual[];
+        ratings?: Rating[];
+    }
+
+    interface Victual {
+        id: number;
+        name: string;
+        describe: string;
+        avatar: string;
+        price: number;
+        restaurantId: number;
+        restaurant: Restaurant
+    }
+
+    interface Rating{
+        id:number;
+        comment: string;
+        star: number;
+        restaurantId: number;
+        restaurant?:Restaurant;
+        userId: number;
+        user?:User;
     }
 }
+
+
 
 function Restaurant({}: Props) {
     const user = useAppSelector((state) => state.myAccount.user);
@@ -45,7 +69,7 @@ function Restaurant({}: Props) {
     );
 
     return (
-        <div  className="Restaurant">
+        <div className="Restaurant">
             <h1 className="PageTitle">Doanh nghiệp của bạn</h1>
             <div className="list">
                 {restaurants.map((resta) => (
@@ -53,10 +77,11 @@ function Restaurant({}: Props) {
                 ))}
                 <div className="noItems">
                     <span>
-                    {
-                      restaurants.length === 0 && "Bạn chưa có doanh nghiệp nào ?  "
-                    }
-                    <Link to="/my-restaurant/create">TẠO DOANH NGHIỆP MỚI</Link>
+                        {restaurants.length === 0 &&
+                            "Bạn chưa có doanh nghiệp nào ?  "}
+                        <Link to="/my-restaurant/create">
+                            TẠO DOANH NGHIỆP MỚI
+                        </Link>
                     </span>
                 </div>
             </div>
@@ -66,7 +91,10 @@ function Restaurant({}: Props) {
 
 function ListItem({ restaurant }: { restaurant: Restaurant }) {
     return (
-        <Link to={`/my-restaurant/manage/${restaurant.id}`} className="listItem">
+        <Link
+            to={`/my-restaurant/manage/${restaurant.id}`}
+            className="listItem"
+        >
             <div className="image">
                 <img
                     src={

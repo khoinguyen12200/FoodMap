@@ -54,6 +54,19 @@ export default class VictualResolver implements ResolverInterface<Rating> {
         return await Restaurant.findOneOrFail({ id: rating.restaurantId });
     }
 
+    @FieldResolver()
+    public async user(@Root() rating: Rating): Promise<User> {
+        return await User.findOneOrFail({ id: rating.userId });
+    }
+
+    @Query(()=>[Rating])
+    public async getRatings(
+        @Arg("restaurantId") restaurantId: number
+    ):Promise<Rating[]> {
+        return await Rating.find({restaurantId});
+    }
+
+
     @Mutation(() => Rating)
     public async rateRestaurant(
         @Arg("data") inputData: RateInput,
@@ -62,6 +75,13 @@ export default class VictualResolver implements ResolverInterface<Rating> {
         const user = await requireLogin(context);
         if (!user) {
             throw new Error("Bạn chưa đăng nhập");
+        }
+        const available = await Rating.find({
+            restaurantId: inputData.restaurantId,
+            userId: user.id,
+        })
+        if (available.length > 0) {
+            throw new Error("Bạn đã đánh giá rồi");
         }
         const rating = await Rating.create({ ...inputData, user }).save();
 

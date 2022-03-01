@@ -1,0 +1,206 @@
+.Visit {
+    padding: 2em;
+    .profileSpace {
+        display: flex;
+        align-items: center;
+        background-color: white;
+        border-radius: 10px;
+        overflow: hidden;
+        color: black;
+        .avatar {
+            width: 300px;
+            height: 300px;
+            img {
+                width: 100%;
+                height: 100%;
+            }
+        }
+        .info {
+            text-align: left;
+            margin-left: 1em;
+            padding: 0.5em;
+            flex: 1;
+            svg {
+                font-size: 1.5em;
+                margin-right: 0.5em;
+            }
+            & > div {
+                margin-bottom: 1em;
+            }
+            .name {
+                font-weight: bold;
+                font-size: 1.7em;
+            }
+        }
+    }
+
+    .victuals {
+        .more {
+            cursor: pointer;
+            color: var(--c1);
+        }
+        .searchBar {
+            width: 100%;
+            box-sizing: border-box;
+            display: flex;
+            .searchInput {
+                flex: 1;
+                border: none;
+                outline: none;
+                border-radius: 5px;
+                margin-top: 2em;
+                padding: 0.5em;
+                font-size: 1.5em;
+                background-color: var(--c1);
+                color: white;
+                &::placeholder {
+                    color: white;
+                    opacity: 0.7;
+                }
+            }
+        }
+        .VictualItem {
+            color: black;
+            width: 100%;
+            background-color: white;
+            padding: 0.5em;
+            margin: 1em 0;
+            border-radius: 10px;
+            display: flex;
+            .avatar {
+                margin-right: 1em;
+                width: 150px;
+                height: 150px;
+                img {
+                    border-radius: 5px;
+                    width: 100%;
+                    height: 100%;
+                }
+            }
+            .info {
+                text-align: left;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                .name {
+                    font-size: 1.5em;
+                    font-weight: bold;
+                }
+                .describe {
+                    color: gray;
+                }
+                .price {
+                    font-size: 1.3em;
+                    font-style: italic;
+                    color: var(--c1);
+                    span {
+                        margin-right: 0.5em;
+                        line-height: 0;
+                        font-size: 1.5em;
+                    }
+                }
+            }
+        }
+    }
+
+    .RatingSpace {
+        margin-top: 2em;
+        background: var(--c1);
+        color: white;
+        padding: 0.5em;
+        border-radius: 10px;
+        .more{
+            cursor: pointer;
+        }
+        .linkToLogin {
+            color: white;
+        }
+        .headSpace {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            .space1 {
+                display: flex;
+                align-items: center;
+            }
+            .avatar {
+                margin-right: 1em;
+                height: 50px;
+                width: 50px;
+                img {
+                    width: 100%;
+                    height: 100%;
+                    border-radius: 50%;
+                }
+            }
+            .sendBtn {
+                cursor: pointer;
+                font-size: 1.3em;
+                color: white;
+                .icon {
+                    margin-left: 0.2em;
+                    line-height: 0;
+                    font-size: 1.3em;
+                }
+            }
+        }
+        .inputSpace {
+            textarea {
+                background: rgba(255, 255, 255, 0.61);
+                width: 100%;
+                min-height: 100px;
+                border: none;
+                outline: none;
+                color: black;
+                border-radius: 2px;
+                border-bottom-left-radius: 10px;
+                border-bottom-right-radius: 10px;
+                margin-top: 0.5em;
+                margin-bottom: 2rem;
+                padding: 0.5em;
+            }
+        }
+        .contentList {
+            margin-top: 2em;
+            .RatingItem {
+                margin-bottom: 1em;
+                background-color: rgba(255, 255, 255, 0.3);
+                color: black;
+                border-radius: 10px;
+                padding:0.5em;
+
+                .head {
+                    display: flex;
+                    align-items: center;
+                    .avatar {
+                        width: 50px;
+                        height: 50px;
+                        border-radius: 50%;
+                        margin-right: 1em;
+                    }
+                    .name {
+                        text-align: left;
+                        flex: 1;
+                        font-weight: bold;
+                    }
+                }
+                .main {
+                    text-align: left;
+                    padding: 0.5em;
+                }
+            }
+        }
+    }
+}
+
+.StarSelector {
+    display: flex;
+    align-items: center;
+    .star {
+        font-size: 30px;
+        color: white;
+        &.active {
+            color: yellow;
+        }
+    }
+}

@@ -42,10 +42,17 @@ import Map from "./pages/Map";
 import Restaurant from "./pages/Restaurant";
 import RestaurantCreatePage from "./pages/Restaurant/CreatePage";
 import ManageRestaurantPage from "./pages/Restaurant/Manage";
-import EditRestaurantPage from './pages/Restaurant/EditPage';
-
+import EditRestaurantPage from "./pages/Restaurant/EditPage";
+import { useJsApiLoader } from "@react-google-maps/api";
+import Visit from "./pages/Visit";
 
 function WrapperApp() {
+    const { isLoaded } = useJsApiLoader({
+        googleMapsApiKey: process.env.REACT_APP_GOOGLE_TOKEN || "",
+    });
+    if (!isLoaded) {
+        return null;
+    }
     return (
         <Router>
             <ReduxProvider store={store}>
@@ -100,6 +107,15 @@ function App() {
                                 </PageWrapper>
                             }
                         />
+
+                        <Route
+                            path="/visit/restaurant/:restaurantId"
+                            element={
+                                <PageWrapper>
+                                    <Visit />
+                                </PageWrapper>
+                            }
+                        />
                         <Route path="/" element={<PrivateRoutes />}>
                             <Route
                                 path="account"
@@ -134,7 +150,7 @@ function App() {
                                     </PageWrapper>
                                 }
                             />
-                              <Route
+                            <Route
                                 path="my-restaurant/edit/:id"
                                 element={
                                     <PageWrapper>

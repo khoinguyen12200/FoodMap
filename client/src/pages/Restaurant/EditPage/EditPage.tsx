@@ -19,6 +19,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import * as schema from "./schema";
 import * as ManageSchema from "../Manage/schema";
 import { useMutation, useQuery } from "@apollo/client";
+import ReactGoogleMap from "../../../components/ReactGoogleMap";
 
 type Props = {};
 
@@ -110,9 +111,11 @@ function FormCreateRestaurant() {
             .required("Email không được để trống"),
     });
 
-    async function onFormikSubmit(values: typeof initialValues,formik:FormikHelpers<typeof initialValues>) {
-    
-        await toast.promise(sendForm(values,formik), {
+    async function onFormikSubmit(
+        values: typeof initialValues,
+        formik: FormikHelpers<typeof initialValues>
+    ) {
+        await toast.promise(sendForm(values, formik), {
             pending: "Đang tải thay đổi",
             error: {
                 render: (res: any) => res?.data?.message,
@@ -121,8 +124,10 @@ function FormCreateRestaurant() {
         });
     }
 
-    async function sendForm(values: typeof initialValues,formik:FormikHelpers<typeof initialValues>) {
-
+    async function sendForm(
+        values: typeof initialValues,
+        formik: FormikHelpers<typeof initialValues>
+    ) {
         if (!location) {
             throw new Error("Yêu cầu phải có vị trí cửa hàng");
         }
@@ -132,15 +137,15 @@ function FormCreateRestaurant() {
             longitude: location.lng,
             latitude: location.lat,
             avatar: file || undefined,
-            id:restaurantId,
-        }
+            id: restaurantId,
+        };
 
         await callUpdate({
             variables: {
                 data: data,
             },
         });
-        navigate(-1)
+        navigate(-1);
     }
 
     return (
@@ -239,20 +244,14 @@ function LocationPicker({ value, setValue }: LocationPicker) {
                     <Modal.Title>Chọn vị trí</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <LoadScript
-                        googleMapsApiKey={
-                            process.env.REACT_APP_GOOGLE_TOKEN || ""
-                        }
+                    <ReactGoogleMap
+                        mapContainerStyle={containerStyle}
+                        center={center}
+                        zoom={15}
+                        onClick={onMapClick}
                     >
-                        <GoogleMap
-                            mapContainerStyle={containerStyle}
-                            center={center}
-                            zoom={15}
-                            onClick={onMapClick}
-                        >
-                            <>{value && <Marker position={value}></Marker>}</>
-                        </GoogleMap>
-                    </LoadScript>
+                        <>{value && <Marker position={value}></Marker>}</>
+                    </ReactGoogleMap>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="primary" onClick={toggle}>

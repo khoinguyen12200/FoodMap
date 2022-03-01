@@ -13,6 +13,7 @@ import { toast } from "react-toastify";
 import * as schema from "./schema";
 import { useMutation } from "@apollo/client";
 import { useNavigate } from "react-router-dom";
+import ReactGoogleMap from "../../../components/ReactGoogleMap";
 
 type Props = {};
 
@@ -152,10 +153,6 @@ function LocationPicker({ value, setValue }: LocationPicker) {
         setShow(!show);
     }
 
-    const { isLoaded } = useJsApiLoader({
-        id: "google-map-script",
-        googleMapsApiKey: process.env.REACT_APP_GOOGLE_TOKEN || "",
-    });
 
     const [map, setMap] = React.useState(null);
 
@@ -197,14 +194,14 @@ function LocationPicker({ value, setValue }: LocationPicker) {
                     <Modal.Title>Chọn vị trí</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <GoogleMap
+                    <ReactGoogleMap
                         mapContainerStyle={containerStyle}
                         center={center}
                         zoom={15}
                         onClick={onMapClick}
                     >
                         <>{value && <Marker position={value}></Marker>}</>
-                    </GoogleMap>
+                    </ReactGoogleMap>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="primary" onClick={toggle}>

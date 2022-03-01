@@ -41,7 +41,7 @@ export default class Victual extends BaseEntity {
     public price!:number;
 
     @ManyToOne(() => Restaurant, (restaurant: Restaurant) => restaurant.id)
-    @JoinColumn({ name: "ownerId" })
+    @JoinColumn({ name: "restaurantId" })
     @Field((_type) => Restaurant)
     public restaurant!: Restaurant;
 

@@ -21,45 +21,31 @@ import Restaurant from "../models/Restaurant";
 
 import requireLogin from "../functions/requireLogin";
 import { FileUpload, GraphQLUpload } from "graphql-upload";
-import fs from 'fs'
+import fs from "fs";
 import { createWriteStream } from "fs";
 import Victual from "../models/Victual";
 
+import {
+    getFileExtension,
+    uploadAvatar,
+    unlinkAvatar,
+} from "../functions/uploadAvatar";
+import Rating from "../models/Rating";
+
 const RESTAURANT_PATH = "static_folder/restaurants/avatars/";
-const RELATIVE_RESTAURANT_PATH = "./" + RESTAURANT_PATH;
 
-async function uploadAvatarRestaurant(id:number,file:FileUpload){
-    const fileData = await file;
-    const fileType = fileData.filename.split(".")[1];
-    const fileName = id + "." + fileType;
-
-    const userAvatarPath = `${RESTAURANT_PATH}${fileName}`;
-    const relativeAvatarPath = `${RELATIVE_RESTAURANT_PATH}${fileName}`;
-
-    await new Promise<void>((resolve, reject) => {
-        fileData
-            .createReadStream()
-            .pipe(createWriteStream(relativeAvatarPath))
-            .on("finish", () => resolve())
-            .on("error", () => reject());
-    });
-
+async function uploadAvatarRestaurant(id: number, file: FileUpload) {
+    const fileName = id + "." + await getFileExtension(file);
+    const userAvatarPath = await uploadAvatar(RESTAURANT_PATH + fileName, file);
     return userAvatarPath;
 }
 
-async function unlinkRestaurantAvatar(userAvatarPath: string){
-    const relativeAvatarPath = userAvatarPath.replace(RESTAURANT_PATH,RELATIVE_RESTAURANT_PATH);
-    await new Promise((resolve, reject) =>{
-        fs.unlink(relativeAvatarPath,(err)=>{
-            if(err) reject(err);
-            resolve(true);
-        });
-    })
+async function unlinkRestaurantAvatar(userAvatarPath: string) {
+    await unlinkAvatar(userAvatarPath);
 }
 
-
 @InputType()
-class CreateRestaurantInput{
+class CreateRestaurantInput {
     @Field()
     public name!: string;
 
@@ -96,7 +82,7 @@ class UpdateInfoInput {
     @Field({ nullable: true })
     public describe?: string;
 
-    @Field(() => GraphQLUpload,{nullable: true})
+    @Field(() => GraphQLUpload, { nullable: true })
     public avatar?: FileUpload;
 
     @Field({ nullable: true })
@@ -116,20 +102,18 @@ class UpdateInfoInput {
 }
 
 @InputType()
-class UpdateAvatarRestaurantInput implements Partial<Restaurant> {
-
-}
+class UpdateAvatarRestaurantInput implements Partial<Restaurant> {}
 
 @InputType()
-class FindRestaurantsInput implements Partial<Restaurant>{
-    @Field({ nullable: true})
-    public id?:number;
+class FindRestaurantsInput implements Partial<Restaurant> {
+    @Field({ nullable: true })
+    public id?: number;
 
-    @Field({ nullable: true})
-    public name?:string;
+    @Field({ nullable: true })
+    public name?: string;
 
-    @Field({ nullable: true})
-    public ownerId?:number;
+    @Field({ nullable: true })
+    public ownerId?: number;
 }
 
 @Resolver((of) => Restaurant)
@@ -141,19 +125,25 @@ export default class RestaurantResolver
         return await User.findOneOrFail({ id: restaurant.ownerId });
     }
 
-    @FieldResolver(() => User)
+    @FieldResolver(() => [Victual])
     public async victuals(@Root() restaurant: Restaurant): Promise<Victual[]> {
         return await Victual.find({ restaurantId: restaurant.id });
     }
 
+    @FieldResolver(() => [Rating])
+    public async ratings(@Root() restaurant: Restaurant): Promise<Rating[]> {
+        return await Rating.find({ restaurantId: restaurant.id });
+    }
+
     @Query(() => [Restaurant])
     public async findRestaurants(
-        @Arg("data") inputData: FindRestaurantsInput,
+        @Arg("data") inputData: FindRestaurantsInput
     ): Promise<Restaurant[]> {
-        const res = await Restaurant.find({...inputData})
-        console.log("res",res)
+        const res = await Restaurant.find({ ...inputData });
         return res;
     }
+
+
 
     @Mutation(() => Restaurant)
     public async createRestaurant(
@@ -162,15 +152,14 @@ export default class RestaurantResolver
     ): Promise<Restaurant> {
         const user = await requireLogin(context);
 
-        const {avatar,...infoData} = inputData;
+        const { avatar, ...infoData } = inputData;
 
-   
         const newRestaurant = await Restaurant.create({
             ...infoData,
             owner: user,
         }).save();
 
-        const path = await uploadAvatarRestaurant(newRestaurant.id,avatar);
+        const path = await uploadAvatarRestaurant(newRestaurant.id, avatar);
         newRestaurant.avatar = path;
         await newRestaurant.save();
 
@@ -183,30 +172,30 @@ export default class RestaurantResolver
         @Ctx() context: ContextProps
     ): Promise<Restaurant> {
         const user = await requireLogin(context);
-        const {avatar,id,...textInput} = inputData;
+        const { avatar, id, ...textInput } = inputData;
         const restaurant = await Restaurant.findOneOrFail({
             id: id,
             ownerId: user.id,
         });
 
-        if(avatar && restaurant.avatar){
+        if (avatar && restaurant.avatar) {
             await unlinkRestaurantAvatar(restaurant.avatar);
-            const path = await uploadAvatarRestaurant(restaurant.id,avatar);
+            const path = await uploadAvatarRestaurant(restaurant.id, avatar);
             restaurant.avatar = path;
             restaurant.save();
         }
 
-        await Restaurant.update({id:id,ownerId:user.id},{ ...textInput })
+        await Restaurant.update({ id: id, ownerId: user.id }, { ...textInput });
         await restaurant.reload();
 
         return restaurant;
     }
 
-    @Mutation(() => Boolean )
+    @Mutation(() => Boolean)
     public async deleteRestaurant(
         @Arg("id") id: number,
         @Ctx() context: ContextProps
-    ): Promise<Boolean>{
+    ): Promise<Boolean> {
         const user = await requireLogin(context);
         const restaurant = await Restaurant.findOneOrFail({
             id,

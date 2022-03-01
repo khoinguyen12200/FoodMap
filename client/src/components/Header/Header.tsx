@@ -14,11 +14,12 @@ import UserSpace from "./UserSpace";
 // import {motion} from 'framer-motion/dist/es/index'
 import * as schema from "./schema";
 import { useLazyQuery } from "@apollo/client";
+import { toast } from "react-toastify";
 
 type Props = {};
 
 const Header = (props: Props) => {
-    const [callReloadUser, { data }] = useLazyQuery(schema.reloadUser);
+    const [callReloadUser, { data, loading, error}] = useLazyQuery(schema.reloadUser);
     const theme = useAppSelector((state) => state.theme);
     const isEmpty = useAppSelector((state) => state.pageSetting.isEmpty);
     const user = useAppSelector((state) => state.myAccount.user);
@@ -37,6 +38,12 @@ const Header = (props: Props) => {
             dispatch(actions.myAccount.setUserInfo(data.reloadUser));
         }
     }, [data]);
+    React.useEffect(() => {
+        if (error) {
+            toast.error(error.message);
+            dispatch(actions.myAccount.logout());
+        }
+    },[error])
 
     return (
         <div className="header">

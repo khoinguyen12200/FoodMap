@@ -1,0 +1,63 @@
+.Home {
+    padding:2em;
+    .ListRestaurant {
+        .header {
+            font-size: 2rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            text-align: left;
+        }
+        .listContent {
+            margin-top: 1rem;
+            display: flex;
+            flex-wrap: wrap;
+
+            .restaurantItem {
+                text-decoration: none;
+                display: flex;
+                flex-direction: column;
+                background-color: white;
+                width: 200px;
+                border-radius: 10px;
+                overflow: hidden;
+                margin: 1rem;
+                box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.2);
+                transition: all 0.5s;
+                &:hover {
+                    transform: scale(1.1);
+                    transform-origin: 50% 50%;
+                    transition: all 0.5s;
+                    box-shadow: 15px 15px 20px 1px rgba(0, 0, 0, 0.5);
+                }
+                .avatar {
+                    width: 100%;
+                    img {
+                        width: 100%;
+                        height: 100%;
+                    }
+                }
+                .info {
+                    flex: 1;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: flex-start;
+                    text-align: left;
+                    padding: 0.5em;
+
+                    svg {
+                        margin-right: 0.5em;
+                    }
+                    .name {
+                        font-weight: bold;
+                        color: var(--c1);
+                    }
+                    .address {
+                        color: gray;
+                        font-style: italic;
+                    }
+                }
+            }
+        }
+    }
+}
