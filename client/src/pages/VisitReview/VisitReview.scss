@@ -1,0 +1,172 @@
+.NoReview {
+    margin: 2em;
+}
+
+.VisitReview {
+    .reviewTitle {
+        padding: 0.5em;
+        color: var(--t);
+        margin: 0 !important;
+    }
+    .belowTitle {
+        display: flex;
+        justify-content: space-between;
+        .infoSpace {
+            margin: 0 1em;
+            display: flex;
+            align-items: center;
+            .space {
+                display: flex;
+                align-items: center;
+                margin-right: 1em;
+                padding: 0 1em;
+                border-right: 1px solid var(--t);
+
+                color: red;
+                &:first-child {
+                    color: green;
+                }
+                &:last-child {
+                    color: royalblue;
+                }
+                .value {
+                    margin-right: 0.5em;
+                }
+                .icon {
+                    width: 1.5em;
+                    height: 1.5em;
+                    cursor: pointer;
+                    svg {
+                        width: 100%;
+                        height: 100%;
+                    }
+                }
+            }
+        }
+        .AuthorSpace {
+            display: flex;
+            flex-direction: column;
+            margin: 0 1em;
+            .avatarAndName {
+                display: flex;
+                align-items: center;
+                .avatar {
+                    width: 2em;
+                    height: 2em;
+                    border-radius: 50%;
+                    margin-left: 0.5em;
+                    border: 2px solid var(--c1);
+                }
+                .name {
+                    font-weight: bold;
+                    opacity: 0.7;
+                }
+            }
+            .delete {
+                margin-top: 1em;
+                color: crimson;
+                font-weight: bold;
+                font-size: 0.8em;
+                margin-left: auto;
+                cursor: pointer;
+            }
+        }
+    }
+    .text {
+        text-align: left;
+        padding: 1em;
+        margin-top: 1em;
+    }
+
+    .commentSpace {
+        color: black;
+        .loginComment {
+            a {
+                margin: 0, 5em auto;
+            }
+        }
+        .myComment {
+            display: flex;
+            flex-direction: column;
+            padding: 0.5em 1em;
+            background-color: white;
+            outline: 2px solid var(--c1);
+            margin: 0.5em;
+            border-radius: 5px;
+            margin-bottom: 2em;
+            .headSpace {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+
+                .userSpace {
+                    display: flex;
+                    align-items: center;
+                    .avatar {
+                        width: 50px;
+                        height: 50px;
+                        border-radius: 50%;
+                        margin-right: 1em;
+                        border: 2px solid var(--c1);
+                    }
+                }
+                .submitBtn {
+                    button {
+                        background: transparent;
+                        border: none;
+                        outline: none;
+                        color: var(--c1);
+                        font-size: 2em;
+                    }
+                }
+            }
+            .bodySpace {
+                display: flex;
+                margin-top: 1em;
+                .cmtInput {
+                    flex: 1;
+                    padding: 0.5em 1em;
+                    outline: none;
+                    border: none;
+                    border-radius: 5px;
+                    font-size: 1.2em;
+                    background: rgb(236, 236, 236);
+                    // border-bottom:2px solid var(--c1);
+                    transition: all 0.2s;
+                }
+            }
+        }
+
+        .listSpace {
+            display: flex;
+            flex-direction: column;
+            .CommentItem {
+                margin: 0 0.5em;
+                margin-bottom: 1em;
+                color: black;
+                background: white;
+                padding: 0.5em;
+                border-radius: 5px;
+                .userSpace {
+                    display: flex;
+                    align-items: center;
+                    border-bottom: 1px solid gray;
+                    padding-bottom: 0.5em;
+                    .avatar {
+                        width: 40px;
+                        height: 40px;
+                        border-radius: 50%;
+                        margin-right: 1em;
+                    }
+                    .name {
+                        font-weight: bold;
+                    }
+                }
+                .text {
+                    padding: 0.5em;
+                    margin: 0;
+                }
+            }
+        }
+    }
+}

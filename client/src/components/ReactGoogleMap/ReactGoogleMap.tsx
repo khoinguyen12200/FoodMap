@@ -10,9 +10,8 @@ import {
     OverlayView,
     GoogleMapProps,
 } from "@react-google-maps/api";
-
+import "./index.scss"
 function GoogleMapReact(props: GoogleMapProps) {
-    // if (!isLoaded) return null;
     return (
         <GoogleMap
             mapContainerStyle={{

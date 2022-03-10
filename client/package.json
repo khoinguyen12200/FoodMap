@@ -21,6 +21,7 @@
     "framer-motion": "^4.1.17",
     "google-map-react": "^2.1.10",
     "graphql": "^16.3.0",
+    "html-react-parser": "^1.4.8",
     "js-sha512": "^0.8.0",
     "react": "^17.0.2",
     "react-bootstrap": "^2.1.2",
@@ -30,6 +31,7 @@
     "react-image-crop": "^9.1.1",
     "react-redux": "^7.2.6",
     "react-router-dom": "^6.2.1",
+    "react-rte": "^0.16.5",
     "react-scripts": "^5.0.0",
     "react-toastify": "^8.2.0",
     "resolve-path": "^1.4.0",
@@ -64,6 +66,8 @@
   "devDependencies": {
     "@types/apollo-upload-client": "^17.0.0",
     "@types/google-map-react": "^2.1.5",
+    "@types/react-html-parser": "^2.0.2",
+    "@types/react-rte": "^0.16.3",
     "@types/resolve-path": "^1.4.0",
     "sass": "^1.49.7"
   }

@@ -15,6 +15,7 @@ import { useAppSelector } from "../../redux";
 import getPathAvatar from "../../constant/getPathAvatar";
 import { RiSendPlane2Fill } from "react-icons/ri";
 import { toast } from "react-toastify";
+import StarSelector from "../../components/StarSelector";
 type Props = {};
 
 function Visit({}: Props) {
@@ -174,38 +175,6 @@ function RateSpace({
     );
 }
 
-interface StarSelector {
-    star: number;
-    onChange?: (rating: number) => void;
-}
-
-function StarSelector({ star, onChange }: StarSelector) {
-    return (
-        <div className="StarSelector">
-            {[1, 2, 3, 4, 5].map((current) => {
-                if (current <= star) {
-                    return (
-                        <div
-                            onClick={() => onChange && onChange(current)}
-                            className="star active"
-                        >
-                            <AiFillStar />
-                        </div>
-                    );
-                } else {
-                    return (
-                        <div
-                            onClick={() => onChange && onChange(current)}
-                            className="star"
-                        >
-                            <AiOutlineStar />
-                        </div>
-                    );
-                }
-            })}
-        </div>
-    );
-}
 
 function RatingItem({ rating }: { rating: Rating }) {
     return (

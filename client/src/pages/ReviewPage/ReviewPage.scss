@@ -1,0 +1,31 @@
+.NoUser{
+    padding:2em;
+    font-size: 1.5em;
+    a{
+        margin-left:0.5em;
+    }
+}
+
+.ReviewPage{
+    width:100%;
+    display:flex;
+    flex-direction: column;
+    .textEditor{
+        margin:1rem;
+        .public-DraftEditor-content{
+            min-height:300px;
+        }
+    }
+
+    .inputTitle{
+        font-size: 1.3em;
+        // font-weight: bold;
+        display:block;
+        border:none;
+        outline:none;
+        padding:0.5em;
+        margin:1em;
+        color:var(--c1);
+    }
+
+}

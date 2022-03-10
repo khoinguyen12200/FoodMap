@@ -193,14 +193,3 @@
     }
 }
 
-.StarSelector {
-    display: flex;
-    align-items: center;
-    .star {
-        font-size: 30px;
-        color: white;
-        &.active {
-            color: yellow;
-        }
-    }
-}

@@ -45,10 +45,13 @@ import ManageRestaurantPage from "./pages/Restaurant/Manage";
 import EditRestaurantPage from "./pages/Restaurant/EditPage";
 import { useJsApiLoader } from "@react-google-maps/api";
 import Visit from "./pages/Visit";
+import ReviewPage from "./pages/ReviewPage";
+import VisitReview from "./pages/VisitReview";
 
 function WrapperApp() {
     const { isLoaded } = useJsApiLoader({
         googleMapsApiKey: process.env.REACT_APP_GOOGLE_TOKEN || "",
+        libraries: ["places","geometry"],
     });
     if (!isLoaded) {
         return null;
@@ -109,10 +112,28 @@ function App() {
                         />
 
                         <Route
+                            path="/review"
+                            element={
+                                <PageWrapper isEmpty={false}>
+                                    <ReviewPage />
+                                </PageWrapper>
+                            }
+                        />
+
+                        <Route
                             path="/visit/restaurant/:restaurantId"
                             element={
                                 <PageWrapper>
                                     <Visit />
+                                </PageWrapper>
+                            }
+                        />
+
+                        <Route
+                            path="/visit/review/:reviewId"
+                            element={
+                                <PageWrapper>
+                                    <VisitReview />
                                 </PageWrapper>
                             }
                         />

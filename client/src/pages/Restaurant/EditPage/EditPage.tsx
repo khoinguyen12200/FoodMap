@@ -12,6 +12,7 @@ import {
     Marker,
     useJsApiLoader,
     LoadScript,
+    Autocomplete,
 } from "@react-google-maps/api";
 import { toast } from "react-toastify";
 import { useNavigate, useParams } from "react-router-dom";
@@ -20,6 +21,7 @@ import * as schema from "./schema";
 import * as ManageSchema from "../Manage/schema";
 import { useMutation, useQuery } from "@apollo/client";
 import ReactGoogleMap from "../../../components/ReactGoogleMap";
+import AutoComplete from "../../../components/ReactGoogleMap/AutoComplete";
 
 type Props = {};
 
@@ -208,6 +210,7 @@ const center = {
 };
 
 function LocationPicker({ value, setValue }: LocationPicker) {
+  
     const [show, setShow] = React.useState(false);
     function toggle() {
         setShow(!show);
@@ -221,6 +224,11 @@ function LocationPicker({ value, setValue }: LocationPicker) {
 
         setValue({ lat, lng });
     }
+
+    function onAutoComplete(location: SimpleLocation){
+        setValue(location);
+    }
+
 
     return (
         <div className="LocationPicker">
@@ -250,6 +258,7 @@ function LocationPicker({ value, setValue }: LocationPicker) {
                         zoom={15}
                         onClick={onMapClick}
                     >
+                        {/* <AutoComplete onChange={onAutoComplete}/> */}
                         <>{value && <Marker position={value}></Marker>}</>
                     </ReactGoogleMap>
                 </Modal.Body>

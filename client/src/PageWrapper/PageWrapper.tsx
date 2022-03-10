@@ -18,9 +18,9 @@ function PageWrapper({ children, isEmpty }: Props): React.ReactElement {
     }, [isEmpty]);
     return (
         <motion.div
-            initial={{ y:-50 }}
-            animate={{ y:0 }}
-            exit={{y:50 }}
+            // initial={{ y:-50 }}
+            // animate={{ y:0 }}
+            // exit={{y:50 }}
         >
             {children}
         </motion.div>

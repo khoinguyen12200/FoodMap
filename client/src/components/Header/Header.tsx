@@ -65,6 +65,9 @@ const Header = (props: Props) => {
                     <Link className="navItem" to="/map">
                         Bản đồ
                     </Link>
+                    <Link className="navItem" to="/review">
+                        Viết bài
+                    </Link>
                     <Link className="navItem" to="/information">
                         Thông tin
                     </Link>

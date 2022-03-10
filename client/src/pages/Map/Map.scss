@@ -1,0 +1,250 @@
+.MapPage {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    background-color: white;
+    .MapView {
+        flex: 1;
+        .restaurantView {
+            .iconSpace {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                font-size: 3em;
+                position: absolute;
+                bottom: 0;
+                left: 50%;
+                transform: translateX(-50%);
+                .topPosition {
+                    position: relative;
+                    .viewSpace {
+                        font-size: 1rem;
+                        border-radius: 5px;
+                        position: absolute;
+                        bottom: 0.5em;
+                        left: 50%;
+                        transform: translate(-50%, 0);
+                        background: white;
+                        padding: 0.5em;
+                        box-shadow: 2px 2px 10px 1px rgba(0, 0, 0, 0.3);
+                        transition: all 0.5s;
+                        opacity: 1;
+
+                        &.close {
+                            transform: translate(-50%, 100px) scale(0);
+                            opacity: 0;
+                            transition: all 0.5s;
+                            transition-delay: 2s;
+                        }
+                        .headSpace {
+                            display: flex;
+                            align-items: center;
+                            .avatarSpace {
+                                .avatar {
+                                    width: 3em;
+                                    height: 3em;
+                                    border-radius: 3px;
+                                }
+                            }
+                            .infoSpace {
+                                text-align: left;
+                                margin-left: 0.5em;
+                                .starViewSpace {
+                                    .star {
+                                        font-size: 1em;
+                                        color: gray;
+                                        &.active {
+                                            color: orange;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        .desSpace {
+                            font-style: italic;
+                            opacity: 0.7;
+                            font-size: 0.8em;
+                            max-height: 50px;
+                            text-align: left;
+                            overflow: hidden;
+                            margin-top: 0.5em;
+                        }
+                        .linkSpace {
+                            text-align: left;
+                            font-size: 0.9em;
+                            margin-top: 0.5em;
+                        }
+                    }
+                }
+                .marker {
+                    color: crimson;
+                }
+                .mainIcon {
+                    width: 1.5em;
+                    height: 1.5em;
+                    border-radius: 50%;
+                    padding: 0.3em;
+                    background: crimson;
+                    color: white;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    box-shadow: 2px 2px 7px 1px rgba(0, 0, 0, 0.3);
+                    position: relative;
+                    svg {
+                        width: 100%;
+                        height: 100%;
+                    }
+                    .dots {
+                        border: 3px solid white;
+                        border-radius: 50%;
+                        height: 100%;
+                        width: 100%;
+                        position: absolute;
+                        top: 50%;
+                        left: 50%;
+                        transform: translateX(-50%) translateY(-50%);
+                        display: flex;
+                        align-items: center;
+                        justify-content: space-between;
+                        animation: rotate 2s infinite;
+                        animation-play-state: running;
+                        animation-delay: 0s;
+                        .dot {
+                            width: 10px;
+                            height: 10px;
+                            border-radius: 50%;
+                            background-color: crimson;
+                            outline:2px solid white;
+                        }
+                        .dot1 {
+                            transform: translateX(-7px);
+                        }
+                        .dot2 {
+                            transform: translateX(7px);
+                        }
+                    }
+                    @keyframes rotate {
+                        0% {
+                            transform: translateX(-50%) translateY(-50%)
+                                rotateZ(0deg);
+                        }
+                        100% {
+                            transform: translateX(-50%) translateY(-50%)
+                                rotateZ(360deg);
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .LeftNavigation {
+        width: 250px;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.4);
+        z-index: 100;
+        transition: all 0.5s;
+        &.close {
+            width: 0;
+            transition: all 0.5s;
+            .backSpace {
+                display: none;
+            }
+            .toggleBtn {
+                left: calc(100% + 1em);
+                transform: rotate(180deg);
+                transform-origin: 50% 50%;
+            }
+        }
+        .toggleBtn {
+            z-index: 100;
+            position: absolute;
+            top: calc(50% - 1.5em);
+            left: calc(100% - 1.5em);
+            transform: rotate(0deg);
+            transform-origin: 50% 50%;
+            background: transparent;
+            outline: none;
+            border: none;
+            transition: all 0.5s;
+            width: 3em;
+            height: 3em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--c1);
+            color: white;
+            border-radius: 50%;
+            padding: 0.3em;
+            svg {
+                width: 100%;
+                height: 100%;
+            }
+        }
+        .backSpace {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 0.7em;
+            cursor: pointer;
+            border-bottom: 2px solid var(--c1);
+            transition: all 0.5s;
+            &:hover {
+                transition: all 0.5s;
+                color: white;
+                background-color: var(--c1);
+            }
+            .icon {
+                font-size: 1.5em;
+                margin-right: 0.5em;
+                line-height: 0;
+            }
+            .text {
+                font-style: italic;
+                white-space: nowrap;
+            }
+        }
+        .listRestaurants {
+            flex: 1;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            .restaurantItem {
+                cursor: pointer;
+                display: flex;
+                flex-direction: column;
+                background: rgb(231, 231, 231);
+                margin-top: 0.3em;
+                .headSpace {
+                    display: flex;
+                    .avatarSpace {
+                        .avatar {
+                            width: 4em;
+                            height: 4em;
+                        }
+                    }
+                    .infoSpace {
+                        text-align: left;
+                        padding: 0.5em;
+                        .nameSpace {
+                            font-weight: bold;
+                            white-space: nowrap;
+                        }
+                        .star {
+                            font-size: 1em;
+                            color: gray;
+                            &.active {
+                                color: orange;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

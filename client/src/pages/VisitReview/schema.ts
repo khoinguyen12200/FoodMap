@@ -1,25 +1,9 @@
 import { gql } from "@apollo/client";
 
 const schema = {
-    findRestaurants: gql`
-        query Query($data: FindRestaurantsInput!) {
-            findRestaurants(data: $data) {
-                id
-                name
-                describe
-                avatar
-                address
-                phone
-                email
-                longitude
-                latitude
-                ownerId
-            }
-        }
-    `,
-    reviews: gql`
-        query Query {
-            reviews {
+    review: gql`
+        query Review($reviewId: Float!) {
+            review(id: $reviewId) {
                 id
                 user {
                     name
@@ -41,6 +25,27 @@ const schema = {
                     value
                     userId
                 }
+            }
+        }
+    `,
+
+    deleteReview: gql`
+        mutation Mutation($deleteReviewId: Float!) {
+            deleteReview(id: $deleteReviewId)
+        }
+    `,
+
+    createVote: gql`
+        mutation CreateVote($data: CreateVoteInput!) {
+            createVote(data: $data) {
+                id
+            }
+        }
+    `,
+    createComment: gql`
+        mutation CreateComment($data: CreateCommentInput!) {
+            createComment(data: $data) {
+                id
             }
         }
     `,
