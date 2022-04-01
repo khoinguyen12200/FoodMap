@@ -80,6 +80,7 @@ function ListRestaurant() {
 
 function RestaurantItem({ restaurant }: { restaurant: Restaurant }) {
     const dispatch = useAppDispatch();
+    const selected = useAppSelector((state) => state.mapPage.selected)
     const star = React.useMemo(() => {
         if (restaurant.ratings) {
             return (
@@ -92,7 +93,12 @@ function RestaurantItem({ restaurant }: { restaurant: Restaurant }) {
     }, [restaurant]);
 
     function onItemClick(){
-        dispatch(actions.mapPage.setSelected(restaurant));
+        if(selected?.id !== restaurant.id){
+            dispatch(actions.mapPage.setSelected(restaurant));
+        }else{
+            dispatch(actions.mapPage.setSelected(null));
+        }
+        
     }
     return (
         <div onClick={onItemClick} className="restaurantItem">
