@@ -5,9 +5,18 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "fullinstall":"cd client && yarn && cd ../server && yarn",
-    "server":"cd server && yarn start"
+    "install": "cd client && yarn && cd ../server && yarn",
+    "serverd": "cd server && yarn dev",
+    "server": "cd server && yarn start",
+    "clientd": "cd client && yarn dev",
+    "client": "cd client && yarn dev",
+    "build": "cd client && yarn build",
+    "run_all": "npm-run-all client serverd"
   },
   "author": "Nguyễn Gia Khôi (khoinguyen12200)",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {},
+  "devDependencies": {
+    "npm-run-all": "^4.1.5"
+  }
 }

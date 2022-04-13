@@ -52,10 +52,11 @@ function Review({ review }: { review: Review }) {
 
     return (
         <Link to={`/visit/review/${review.id}`} className="reviewItem">
-            <div className="title">{review.title}</div>
+           <div className="title">{review.title}</div>
             <div className="text">
                 <HtmlDisplay html={review.text} />
             </div>
+           
             <div className="footSpace">
                 <div className="space1">
                     <div className="space">
@@ -78,6 +79,7 @@ function Review({ review }: { review: Review }) {
                     </div>
                 </div>
             </div>
+           
         </Link>
     );
 }

@@ -9,13 +9,15 @@ import schema from "./schema";
 import "./Visit.scss";
 import { BsTextarea } from "react-icons/bs";
 import { MdOutlineAttachMoney } from "react-icons/md";
-import { FaRegMoneyBillAlt } from "react-icons/fa";
+import { FaMapMarkerAlt, FaRegMoneyBillAlt } from "react-icons/fa";
 import { AiFillStar, AiOutlineStar } from "react-icons/ai";
 import { useAppSelector } from "../../redux";
 import getPathAvatar from "../../constant/getPathAvatar";
 import { RiSendPlane2Fill } from "react-icons/ri";
 import { toast } from "react-toastify";
 import StarSelector from "../../components/StarSelector";
+import ReactGoogleMap from "../../components/ReactGoogleMap";
+import { OverlayView } from "@react-google-maps/api";
 type Props = {};
 
 function Visit({}: Props) {
@@ -49,6 +51,7 @@ function Visit({}: Props) {
     return (
         <div className="Visit">
             <RestaurantProfile restaurant={restaurant} />
+            <MapView restaurant={restaurant} />
             <Victuals restaurant={restaurant} />
             <Rating restaurant={restaurant} />
         </div>
@@ -312,6 +315,34 @@ function RestaurantProfile({ restaurant }: { restaurant: Restaurant }) {
                     </a>
                 </div>
             </div>
+        </div>
+    );
+}
+
+function MapView({ restaurant }: { restaurant: Restaurant }) {
+    const { latitude, longitude, name } = restaurant;
+    const value = {
+        lat: latitude,
+        lng: longitude,
+    };
+    return (
+        <div className="mapContainer">
+            <ReactGoogleMap
+                mapContainerStyle={{ width: "100%", height: "100%" }}
+                center={value}
+                zoom={15}
+            >
+                <OverlayView mapPaneName="floatPane" position={value}>
+                    <div className="myMarker">
+                        <div className="content">
+                            <div className="text">{name}</div>
+                            <div className="icon">
+                                <FaMapMarkerAlt />
+                            </div>
+                        </div>
+                    </div>
+                </OverlayView>
+            </ReactGoogleMap>
         </div>
     );
 }

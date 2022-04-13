@@ -13,7 +13,12 @@ const Footer = (props: Props) => {
             className="Footer"
         >
             <div className="content">
-              
+                <h1>
+                    Website giới thiệu địa điểm ẩm thực Cần Thơ
+                </h1>
+                <p>
+                    Nội dung các địa điểm trong web được lấy từ google map, có thể không đúng với thực tế
+                </p>
             </div>
         </motion.div>
     );

@@ -2,7 +2,15 @@
     overflow: hidden;
     background: var(--c1);
     color: var(--t);
+    min-height: 200px;
+    display:flex;
+    align-items: center;
+    justify-content: center;
     .content {
-        min-height: 200px;
+        color:white;
+        padding:1em;
+        *{
+            color:white;
+        }
     }
 }

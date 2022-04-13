@@ -1,8 +1,13 @@
 .Home {
     padding: 2em;
+    .HomeTitle{
+        letter-spacing:0.1em;
+        text-transform:uppercase;
+        color:var(--t);
+    }
     .header {
         font-size: 2rem;
-        font-weight: bold;
+        // font-weight: bold;
         text-transform: uppercase;
         text-align: left;
     }
@@ -64,15 +69,18 @@
     .ListReview {
         .listContent {
             display: flex;
-            flex-wrap: wrap;
+            flex-direction: row;
+            justify-content: flex-start;
+            align-items: flex-end;
+            flex-wrap:wrap;
+            padding-top:2em;
         }
         .reviewItem {
             overflow: hidden;
-            width: 300px;
-
+            width: 25%;
             margin: 1rem;
             border-radius: 10px;
-            background-color: white;
+            background-color: antiquewhite;
             text-decoration: none;
             text-align: left;
             display: flex;
@@ -80,8 +88,17 @@
             color: black;
             box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.2);
             transition: all 0.5s;
+            &:first-child{
+                width:40%;
+                .text{
+                    height:300px !important;
+                }
+                .title{
+                    font-size: 1.5em;
+                }
+            }
             &:hover {
-                transform: scale(1.1);
+                transform: scale(1.03);
                 transform-origin: 50% 50%;
                 transition: all 0.5s;
                 box-shadow: 15px 15px 20px 1px rgba(0, 0, 0, 0.5);
@@ -90,17 +107,23 @@
                 font-weight: bold;
                 color: white;
                 padding: 0.5em;
+                font-size: 1.2em;
                 background: var(--c1);
             }
             .text {
                 padding: 0.5em;
+                margin-bottom: 10px;
                 height: 200px;
                 overflow: hidden;
+                opacity:0.9;
+                h1,h2,h3,h4,h5,h6 {
+                    font-size: 1em;
+                }
                 img{
-                    max-width:100px;
-                    max-height:100px;
-                    width:auto;
-                    height:auto;
+                    margin-right:15px;
+                    float:left;
+                    width:150px;
+                    height:150px;
                 }
             }
             .footSpace{
@@ -110,6 +133,13 @@
                     padding:0.5em;
                     .space{
                         margin-right: 1em;
+                        &:first-child{
+                            color:royalblue;
+                        }
+                        color:red;
+                        &:last-child{
+                            color:green;
+                        }
                         .value{
                             margin-right: 0.5em;
                         }
