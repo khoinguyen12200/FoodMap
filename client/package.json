@@ -69,6 +69,6 @@
     "@types/react-html-parser": "^2.0.2",
     "@types/react-rte": "^0.16.3",
     "@types/resolve-path": "^1.4.0",
-    "sass": "^1.49.7"
+    "sass": "^1.51.0"
   }
 }

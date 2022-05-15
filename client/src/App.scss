@@ -1,24 +1,22 @@
 @import "~antd/dist/antd.css";
-
+@import "~bootstrap/scss/bootstrap";
 :root {
     .theme_light {
         --c1: #258bdf;
-        --c2: #ad50ff;
+        --c2: #a4118c;
         --c3: #ff6661;
-        --c4: #91c483;
 
         --t: #000;
-        --b: #e3fbff;
+        --b: #ffffff;
     }
 
     .theme_dark {
-        --c1: #72147e;
-        --c2: #f21170;
-        --c3: #fa9905;
-        --c4: #ff5200;
+        --c1: #f21170;
+        --c3: #fad105;
+        --c2: #ff5200;
 
         --t: #fff;
-        --b: #2a0944;
+        --b: #24363a;
     }
 }
 

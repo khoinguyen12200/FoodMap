@@ -4,6 +4,9 @@
         letter-spacing:0.1em;
         text-transform:uppercase;
         color:var(--t);
+        padding:3em;
+        font-size: 3em;
+        color:var(--c1);
     }
     .header {
         font-size: 2rem;
@@ -12,33 +15,61 @@
         text-align: left;
     }
     .ListRestaurant {
+        position: relative;
+        .btnSpace{
+            position:absolute;
+            top:50%;
+            left:50%;
+            transform: translate(-50%, -50%);
+            width:101%;
+            display:flex;
+            justify-content: space-between;
+            z-index:10;
+            .myBtn{
+                font-size: 2em;
+                border-radius: 50%;
+                background-color: transparent;
+                padding:0;
+                outline:none;
+                border:none;
+                svg{
+                    width:2em;
+                    height:2em;
+                    border-radius:50%;
+                    background-color: var(--b);
+                    color: var(--c1);
+                }
+                &:focus{
+                    outline:none;
+                    border:none;
+                    
+                }
+            }
+        }
         .listContent {
             margin-top: 1rem;
-            display: flex;
-            flex-wrap: wrap;
-
+            text-align: center;
             .restaurantItem {
                 text-decoration: none;
                 display: flex;
                 flex-direction: column;
                 background-color: white;
-                width: 200px;
-                border-radius: 10px;
+                width: 95%;
+                height:60vh;
+                border-radius: 3px;
                 overflow: hidden;
                 margin: 1rem;
                 box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.2);
                 transition: all 0.5s;
-                &:hover {
-                    transform: scale(1.1);
-                    transform-origin: 50% 50%;
-                    transition: all 0.5s;
-                    box-shadow: 15px 15px 20px 1px rgba(0, 0, 0, 0.5);
-                }
+                margin:auto;
                 .avatar {
                     width: 100%;
+                    height:auto;
+                    overflow: hidden;
                     img {
                         width: 100%;
                         height: 100%;
+                        object-fit: cover;
                     }
                 }
                 .info {
@@ -49,7 +80,7 @@
                     align-items: flex-start;
                     text-align: left;
                     padding: 0.5em;
-
+                    font-size: 1.3em;
                     svg {
                         margin-right: 0.5em;
                     }
@@ -69,18 +100,18 @@
     .ListReview {
         .listContent {
             display: flex;
-            flex-direction: row;
+            flex-direction: column;
             justify-content: flex-start;
-            align-items: flex-end;
+            align-items: center;
             flex-wrap:wrap;
             padding-top:2em;
         }
         .reviewItem {
             overflow: hidden;
-            width: 25%;
+            // width: 100%;
             margin: 1rem;
-            border-radius: 10px;
-            background-color: antiquewhite;
+            border-radius: 3px;
+            background-color: white;
             text-decoration: none;
             text-align: left;
             display: flex;
@@ -88,15 +119,15 @@
             color: black;
             box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.2);
             transition: all 0.5s;
-            &:first-child{
-                width:40%;
-                .text{
-                    height:300px !important;
-                }
-                .title{
-                    font-size: 1.5em;
-                }
-            }
+            // &:first-child{
+            //     width:40%;
+            //     .text{
+            //         height:300px !important;
+            //     }
+            //     .title{
+            //         font-size: 1.5em;
+            //     }
+            // }
             &:hover {
                 transform: scale(1.03);
                 transform-origin: 50% 50%;
@@ -113,7 +144,7 @@
             .text {
                 padding: 0.5em;
                 margin-bottom: 10px;
-                height: 200px;
+                max-height: 300px;
                 overflow: hidden;
                 opacity:0.9;
                 h1,h2,h3,h4,h5,h6 {
@@ -127,7 +158,7 @@
                 }
             }
             .footSpace{
-                border-top: 2px solid var(--c1);
+                background: 5px solid var(--c1);
                 .space1{
                     display:flex;
                     padding:0.5em;

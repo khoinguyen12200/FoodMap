@@ -1,11 +1,12 @@
 .header {
+   
     .content {
         display: flex;
         justify-content: space-between;
-        background: var(--c1);
+        background: var(--b);
         overflow: hidden;
         box-shadow: 5px 0 20px 1px rgba(0, 0, 0, 0.2);
-
+        border-bottom: 3px solid var(--c1);
         a {
             text-decoration: none;
             margin: 0;
@@ -14,13 +15,15 @@
         .navItem {
             padding: 0.5em;
             text-transform: uppercase;
-            color: white;
+            color: var(--c1);
+            font-weight: bold;
         }
         .main {
             display: flex;
             align-items: center;
 
             .logo {
+                padding-right: 1em;
                 img {
                     width: 70px;
                     height: 70px;
@@ -50,12 +53,12 @@
                 height: 30px;
                 border-radius: 50%;
                 border: 3px solid white;
-                background-color:white;
+                background-color: white;
             }
         }
         .userName {
             margin: 0 0.5em;
-            color: white;
+            color: var(--c2);
         }
     }
 }

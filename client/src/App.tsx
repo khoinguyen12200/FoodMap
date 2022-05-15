@@ -4,7 +4,7 @@ import store, { useAppSelector } from "./redux";
 
 import logo from "./logo.svg";
 import "./App.scss";
-
+import 'bootstrap/dist/css/bootstrap.min.css';
 import {
     BrowserRouter as Router,
     Routes,

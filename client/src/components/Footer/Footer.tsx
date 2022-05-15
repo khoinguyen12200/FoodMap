@@ -8,7 +8,7 @@ const Footer = (props: Props) => {
     const isEmpty = useAppSelector((state) => state.pageSetting.isEmpty);
     return (
         <motion.div
-            animate={{ height: isEmpty ? 0 : "auto" }}
+            animate={{ height: isEmpty ? 0 : "300px" }}
             transition={{ duration: 0.3 }}
             className="Footer"
         >

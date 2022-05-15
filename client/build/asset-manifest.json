@@ -1,0 +1,20 @@
+{
+  "files": {
+    "main.css": "/static/css/main.d0b80a93.css",
+    "main.js": "/static/js/main.5dd19543.js",
+    "static/js/787.c4e7f8f9.chunk.js": "/static/js/787.c4e7f8f9.chunk.js",
+    "static/media/snowmountain.png": "/static/media/snowmountain.8656bbe98750c31f976f.png",
+    "static/media/Raleway-Regular.ttf": "/static/media/Raleway-Regular.9ade142e81dd8d55cd32.ttf",
+    "static/media/BeVietnamPro-Regular.ttf": "/static/media/BeVietnamPro-Regular.48bacce26505d28b25ee.ttf",
+    "static/media/logo_white.png": "/static/media/logo_white.5a1e2c03edaa0cff1d99.png",
+    "static/media/logo_black.png": "/static/media/logo_black.b9893ceabc52da29ceda.png",
+    "index.html": "/index.html",
+    "main.d0b80a93.css.map": "/static/css/main.d0b80a93.css.map",
+    "main.5dd19543.js.map": "/static/js/main.5dd19543.js.map",
+    "787.c4e7f8f9.chunk.js.map": "/static/js/787.c4e7f8f9.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.d0b80a93.css",
+    "static/js/main.5dd19543.js"
+  ]
+}

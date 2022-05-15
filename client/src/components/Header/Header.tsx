@@ -57,7 +57,8 @@ const Header = (props: Props) => {
 
                 <div className="main">
                     <div className="logo">
-                        <img src={LogoWhite} alt="logo" />
+                       
+                        <img src={ theme.color === "light" ? LogoBlack : LogoWhite} alt="logo" />
                     </div>
                     <Link className="navItem" to="/">
                         Trang chủ
